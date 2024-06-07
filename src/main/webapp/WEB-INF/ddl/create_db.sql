@@ -1,0 +1,36 @@
+-- DB名：spell_memorizer
+-- ユーザー名：katsuyaharada
+-- パスワード：tkznemou19
+-- テーブル：BKTB, CPTB, WDTB
+
+-- 旧テーブル削除
+DROP TABLE IF EXISTS BKTB;
+DROP TABLE IF EXISTS CPTB;
+DROP TABLE IF EXISTS WDTB;
+
+-- BKTBテーブル
+CREATE TABLE BKTB(
+    BOOKCD varchar(10) NOT NULL UNIQUE PRIMARY KEY COMMENT "単語帳コード",
+    BOOKNM varchar(100) NOT NULL UNIQUE COMMENT "単語帳名",
+    ETDTTM timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "入力日時"
+);
+
+
+-- CPTBテーブル
+CREATE TABLE CPTB(
+    CPTRCD varchar(10) NOT NULL UNIQUE PRIMARY KEY COMMENT "チャプターコード",
+    BOOKCD varchar(10) NOT NULL COMMENT "単語帳コード",
+    CPTRNM varchar(100) NOT NULL COMMENT "チャプター名",
+    ETDTTM timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "入力日時"
+);
+
+
+-- WDTBテーブル
+CREATE TABLE WDTB(
+    WORDCD varchar(10) NOT NULL UNIQUE PRIMARY KEY COMMENT "単語コード",
+    CPTRCD varchar(10) NOT NULL COMMENT "チャプターコード",
+    WORDNU int NOT NULL COMMENT "単語番号",
+    WRDSPL varchar(100) NOT NULL COMMENT "単語スペル",
+    WRDSND varchar(100) NOT NULL UNIQUE COMMENT "単語発音",
+    ETDTTM timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "入力日時"
+);

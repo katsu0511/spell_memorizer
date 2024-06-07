@@ -1,0 +1,215 @@
+@charset "UTF-8";
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+a, img {
+	color: inherit;
+	outline: none;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+a:hover, img:hover {
+	opacity: 0.2;
+}
+
+.container {
+	width: 1200px;
+	height: inherit;
+	margin: 0 auto;
+}
+
+header {
+	background-color: darkcyan;
+	width: 100%;
+	height: 80px;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	width: inherit;
+	height: inherit;
+}
+
+h1 a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+footer {
+	background-color: darkcyan;
+	width: 100%;
+	height: 60px;
+	text-align: center;
+}
+
+footer small {
+	font-size: 12px;
+	line-height: 60px;
+}
+
+main {
+	background-color: cornsilk;
+	width: 100%;
+	min-height: calc(100vh - 140px);
+}
+
+.index {
+	padding: 30px 0;
+}
+
+.index ul {
+	padding-left: 30px;
+}
+
+.index li {
+	padding: 2px 0;
+}
+
+.index li a {
+	font-size: 18px;
+}
+
+.book_titles {
+	display: flex;
+	align-items: center;
+	padding-bottom: 30px;
+}
+
+.back {
+	display: block;
+	width: 36px;
+	height: 36px;
+}
+
+.back img {
+	display: block;
+	width: 24px;
+	height: 24px;
+	margin: 6px;
+}
+
+h2 {
+	height: 36px;
+	margin-left: 5px;
+}
+
+h3 {
+	margin-left: 20px;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid #000000;
+}
+
+tr {
+	width: 100%;
+	height: 50px;
+	text-align: center;
+}
+
+td:first-child, td:nth-child(4), td:last-child {
+	width: 100px;
+}
+
+td:nth-child(2), td:nth-child(3) {
+	width: 400px;
+}
+
+.word_td {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 30px;
+}
+
+.word {
+	padding-left: 20px;
+}
+
+.icon_space {
+	width: 70px;
+}
+
+.icon {
+	display: block;
+	width: 30px;
+	height: 30px;
+}
+
+.icon:hover {
+	cursor: pointer;
+}
+
+.answer_td {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 100%;
+}
+
+.my_answer {
+	font-size: 20px;
+	width: 200px;
+	height: 30px;
+	padding: 2px 5px;
+	border: 1px solid #000;
+	border-radius: 5px;
+	outline: none;
+	appearance: none;
+}
+
+.answer_button {
+	background-color: aliceblue;
+	height: 30px;
+	border: 1px solid #000;
+	border-radius: 5px;
+	outline: none;
+	appearance: none;
+	transition: all 0.3s;
+}
+
+.answer_button:hover {
+	cursor: pointer;
+	opacity: 0.2;
+}
+
+.judgement {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.correrct {
+	color: red;
+}
+
+.incorrerct {
+	color: #000;
+}
+
+.play {
+	display: block;
+	width: 30px;
+	height: 30px;
+	margin: 0 auto;
+}
+
+.show {
+	display: block;
+}
+
+.hide {
+	display: none;
+}
