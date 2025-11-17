@@ -1,0 +1,28 @@
+### Eclipse ###
+.classpath
+.project
+.settings/
+
+### Java ###
+*.class
+*.log
+*.jar
+*.war
+*.ear
+
+### Maven / Gradle (使っている場合) ###
+target/
+build/
+
+### Tomcat / Eclipse Web Tools Platform ###
+.metadata/
+tmp/
+wtpwebapps/
+Servers/
+
+### Application configuration ###
+src/main/resources/application.properties
+
+### OS files ###
+.DS_Store
+Thumbs.db
