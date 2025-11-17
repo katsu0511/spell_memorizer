@@ -19,6 +19,7 @@
 						<td>Word</td>
 						<td>Input</td>
 						<td>Sound</td>
+						<td>Pause</td>
 						<td>Judgement</td>
 					</tr>
 				</thead>
@@ -45,6 +46,10 @@
 							<td>
 								<img src="${pageContext.request.contextPath}/img/play.png" class="icon play">
 								<input type="hidden" value="${word.word_sound}">
+							</td>
+							<td>
+								<img src="${pageContext.request.contextPath}/img/pause.png" class="icon pause show">
+								<img src="${pageContext.request.contextPath}/img/replay.png" class="icon replay hide">
 							</td>
 							<td>
 								<span class="judgement"></span>
