@@ -13,8 +13,8 @@ h1, h2, h3, ul, li {
 a, img {
 	color: inherit;
 	outline: none;
-  text-decoration: none;
-  transition: all 0.3s;
+	text-decoration: none;
+	transition: all 0.3s;
 }
 
 a:hover, img:hover {
@@ -120,7 +120,7 @@ tr {
 	text-align: center;
 }
 
-td:first-child, td:nth-child(4), td:last-child {
+td:first-child, td:nth-child(4), td:nth-child(5), td:last-child {
 	width: 100px;
 }
 
@@ -189,17 +189,10 @@ td:nth-child(2), td:nth-child(3) {
 .judgement {
 	font-size: 24px;
 	font-weight: bold;
-}
-
-.correrct {
 	color: red;
 }
 
-.incorrerct {
-	color: #000;
-}
-
-.play {
+.play, .pause, .replay {
 	display: block;
 	width: 30px;
 	height: 30px;
