@@ -3,7 +3,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>
 	<footer>
 		<div class="container">
-			<small>Copyright&copy;2023 Spell Memorizer.</small>
+			<small>Copyright&copy;2025 Spell Memorizer.</small>
 		</div>
 	</footer>
 </body>
