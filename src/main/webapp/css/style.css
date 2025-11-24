@@ -111,7 +111,7 @@ h3 {
 table {
 	width: 100%;
 	border-collapse: collapse;
-	border: 1px solid #000000;
+	border: 1px solid black;
 }
 
 tr {
@@ -165,7 +165,7 @@ td:nth-child(2), td:nth-child(3) {
 	width: 200px;
 	height: 30px;
 	padding: 2px 5px;
-	border: 1px solid #000;
+	border: 1px solid black;
 	border-radius: 5px;
 	outline: none;
 	appearance: none;
@@ -174,7 +174,7 @@ td:nth-child(2), td:nth-child(3) {
 .answer_button {
 	background-color: aliceblue;
 	height: 30px;
-	border: 1px solid #000;
+	border: 1px solid black;
 	border-radius: 5px;
 	outline: none;
 	appearance: none;
@@ -205,4 +205,56 @@ td:nth-child(2), td:nth-child(3) {
 
 .hide {
 	display: none;
+}
+
+.pages {
+	display: flex;
+	justify-content: center;
+	margin-top: 30px;
+}
+
+.element {
+	display: block;
+	width: 20px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	box-sizing: border-box;
+	margin: 0 5px;
+}
+
+.pagenation {
+	width: 40px;
+	line-height: 38px;
+	border: solid 1px darkcyan;
+	border-radius: 50%;
+}
+
+.current {
+	background-color: darkcyan;
+	color: white;
+}
+
+.link {
+	background-color: cornsilk;
+	color: darkcyan;
+}
+
+.link:hover {
+	background-color: darkcyan;
+	color: white;
+	opacity: 1;
+}
+
+.ajacent {
+	display: block;
+	width: 30px;
+	height: 30px;
+	margin: 5px;
+}
+
+.ajacent img {
+	display: block;
+	width: 100%;
+	height: 100%;
 }
