@@ -14,7 +14,7 @@
 			<ul>
 				<c:forEach var="chapter" items="${chapters}">
 					<li>
-						<a href="${pageContext.request.contextPath}/index/word?id=${chapter.chapter_code}">${chapter.chapter_name}</a>
+						<a href="${pageContext.request.contextPath}/index/word?id=${chapter.chapter_code}&cur=1">${chapter.chapter_name}</a>
 					</li>
 				</c:forEach>
 			</ul>
