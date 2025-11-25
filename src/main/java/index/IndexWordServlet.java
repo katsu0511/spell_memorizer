@@ -52,7 +52,16 @@ public class IndexWordServlet extends HttpServlet {
 		ResultSet rset4 = null;
 		String id = request.getParameter("id");
 		String curStr = request.getParameter("cur");
+		int total = 0;
+		int end = 0;
 		int cur = Integer.parseInt(curStr);
+		String book_code = null;
+		String book_name = null;
+		
+		if (cur <= 0) {
+			request.getRequestDispatcher("/WEB-INF/app/404/404.jsp").forward(request, response);
+			return;
+		}
 		
 		try {
 			conn = db.getConnection();
@@ -63,8 +72,6 @@ public class IndexWordServlet extends HttpServlet {
 			pstmt1 = conn.prepareStatement(sql1);
 			pstmt1.setString(1, id);
 			rset1 = pstmt1.executeQuery();
-			String book_code = null;
-			String book_name = null;
 			
 			while (rset1.next()) {
 			  book_code = rset1.getString(1);
@@ -108,8 +115,8 @@ public class IndexWordServlet extends HttpServlet {
 			rset4 = pstmt4.executeQuery();
 			String totalStr = null;
 			if (rset4.next()) totalStr = rset4.getString(1);
-			int total = Integer.parseInt(totalStr);
-			int end = total / 100;
+			total = Integer.parseInt(totalStr);
+			end = total / 100;
 			if (total % 100 != 0) end++;
 			
 			String url = "/index/word?id=" + id + "&cur=";
@@ -190,7 +197,11 @@ public class IndexWordServlet extends HttpServlet {
 			} catch (SQLException e) {}
 		}
 		
-		request.getRequestDispatcher("/WEB-INF/app/index/index_word.jsp").forward(request, response);
+		if (book_code == null && book_name == null || total == 0 || end < cur) {
+			request.getRequestDispatcher("/WEB-INF/app/404/404.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/WEB-INF/app/index/index_word.jsp").forward(request, response);
+		}
 	}
 
 	/**
