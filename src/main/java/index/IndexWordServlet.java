@@ -45,10 +45,23 @@ public class IndexWordServlet extends HttpServlet {
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
 		PreparedStatement pstmt3 = null;
+		PreparedStatement pstmt4 = null;
 		ResultSet rset1 = null;
 		ResultSet rset2 = null;
 		ResultSet rset3 = null;
+		ResultSet rset4 = null;
 		String id = request.getParameter("id");
+		String curStr = request.getParameter("cur");
+		int total = 0;
+		int end = 0;
+		int cur = Integer.parseInt(curStr);
+		String book_code = null;
+		String book_name = null;
+		
+		if (cur <= 0) {
+			request.getRequestDispatcher("/WEB-INF/app/404/404.jsp").forward(request, response);
+			return;
+		}
 		
 		try {
 			conn = db.getConnection();
@@ -59,8 +72,6 @@ public class IndexWordServlet extends HttpServlet {
 			pstmt1 = conn.prepareStatement(sql1);
 			pstmt1.setString(1, id);
 			rset1 = pstmt1.executeQuery();
-			String book_code = null;
-			String book_name = null;
 			
 			while (rset1.next()) {
 			  book_code = rset1.getString(1);
@@ -82,14 +93,14 @@ public class IndexWordServlet extends HttpServlet {
 			
 			request.setAttribute("chapter_name", chapter_name);
 			
-			String sql3 = "SELECT WORDNU,WRDSPL,WRDSND FROM WDTB WHERE CPTRCD=? ORDER BY WORDNU ASC";
+			String sql3 = "SELECT WORDNU,WRDSPL,WRDSND FROM WDTB WHERE CPTRCD=? ORDER BY WORDNU ASC LIMIT 100 OFFSET " + (cur - 1) * 100;
 			pstmt3 = conn.prepareStatement(sql3);
 			pstmt3.setString(1, id);
 			rset3 = pstmt3.executeQuery();
 			ArrayList<Map<String, String>> words = new ArrayList<Map<String, String>>();
 			
 			while (rset3.next()) {
-			  Map<String, String> word = new HashMap<>();
+				Map<String, String> word = new HashMap<>();
 				word.put("word_number", rset3.getString(1));
 				word.put("word_spell", rset3.getString(2));
 				word.put("word_sound", rset3.getString(3));
@@ -97,6 +108,55 @@ public class IndexWordServlet extends HttpServlet {
 			}
 			
 			request.setAttribute("words", words);
+			
+			String sql4 = "SELECT COUNT(*) FROM WDTB WHERE CPTRCD=?";
+			pstmt4 = conn.prepareStatement(sql4);
+			pstmt4.setString(1, id);
+			rset4 = pstmt4.executeQuery();
+			String totalStr = null;
+			if (rset4.next()) totalStr = rset4.getString(1);
+			total = Integer.parseInt(totalStr);
+			end = total / 100;
+			if (total % 100 != 0) end++;
+			
+			String url = "/index/word?id=" + id + "&cur=";
+			ArrayList<Map<String, String>> pages = new ArrayList<>();
+			Map<String, String> left = makePage("left", cur - 1, url, false);
+			Map<String, String> first = makePage("1", 1, url, false);
+			Map<String, String> prev = makePage(Integer.toString(cur - 1), cur - 1, url, false);
+			Map<String, String> current = makePage(curStr, cur, url, true);
+			Map<String, String> next = makePage(Integer.toString(cur + 1), cur + 1, url, false);
+			Map<String, String> last = makePage(Integer.toString(end), end, url, false);
+			Map<String, String> right = makePage("right", cur + 1, url, false);
+			Map<String, String> interval = makePage("...", cur, url, true);
+			
+			if (cur == 1) {
+				pages.add(current);
+				if (end >= 3) pages.add(next);
+				if (end >= 4) pages.add(interval);
+				if (end >= 2) {
+					pages.add(last);
+					pages.add(right);
+				}
+			} else if (cur == end) {
+				pages.add(left);
+				pages.add(first);
+				if (end >= 4) pages.add(interval);
+				if (end >= 3) pages.add(prev);
+				pages.add(current);
+			} else {
+				pages.add(left);
+				pages.add(first);
+				if (end >= 5 && cur >= 4) pages.add(interval);
+				if (end >= 4 && cur >= 3) pages.add(prev);
+				pages.add(current);
+				if (end >= 4 && cur <= end - 2) pages.add(next);
+				if (end >= 5 && cur <= end - 3) pages.add(interval);
+				pages.add(last);
+				pages.add(right);
+			}
+			
+			request.setAttribute("pages", pages);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -105,31 +165,43 @@ public class IndexWordServlet extends HttpServlet {
 			} catch (SQLException e) {}
 			
 			try {
-        pstmt2.close();
-      } catch (SQLException e) {}
+				pstmt2.close();
+			} catch (SQLException e) {}
 			
 			try {
-        pstmt3.close();
-      } catch (SQLException e) {}
+				pstmt3.close();
+			} catch (SQLException e) {}
+			
+			try {
+				pstmt4.close();
+			} catch (SQLException e) {}
 			
 			try {
 				rset1.close();
 			} catch (SQLException e) {}
 			
 			try {
-        rset2.close();
-      } catch (SQLException e) {}
+				rset2.close();
+			} catch (SQLException e) {}
 			
 			try {
-        rset3.close();
-      } catch (SQLException e) {}
+				rset3.close();
+			} catch (SQLException e) {}
+			
+			try {
+				rset4.close();
+			} catch (SQLException e) {}
 			
 			try {
 				conn.close();
 			} catch (SQLException e) {}
 		}
 		
-		request.getRequestDispatcher("/WEB-INF/app/index/index_word.jsp").forward(request, response);
+		if (book_code == null && book_name == null || total == 0 || end < cur) {
+			request.getRequestDispatcher("/WEB-INF/app/404/404.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/WEB-INF/app/index/index_word.jsp").forward(request, response);
+		}
 	}
 
 	/**
@@ -138,6 +210,13 @@ public class IndexWordServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	private Map<String,String> makePage(String display, int pageNum, String baseUrl, boolean isCurrent) {
+		Map<String,String> page = new HashMap<>();
+		page.put("display", display);
+		page.put("link", isCurrent ? "" : baseUrl + pageNum);
+		return page;
 	}
 
 }

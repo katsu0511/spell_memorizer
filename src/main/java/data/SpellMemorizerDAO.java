@@ -6,16 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import config.AppConfig;
+
 public class SpellMemorizerDAO {
-	private final String DSN = "jdbc:mysql://localhost:3306/spell_memorizer?useSSL=false";
-	private final String USER = "katsuyaharada";
-	private final String PASSWORD = "tkznemou19";
+	private final String DSN = AppConfig.get("db.url");
+	private final String USER = AppConfig.get("db.user");
+	private final String PASSWORD = AppConfig.get("db.pass");
 	
 	public Connection getConnection() {
 		Connection conn = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(DSN, USER, PASSWORD);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

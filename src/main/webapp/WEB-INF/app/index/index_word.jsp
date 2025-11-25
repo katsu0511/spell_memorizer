@@ -19,6 +19,7 @@
 						<td>Word</td>
 						<td>Input</td>
 						<td>Sound</td>
+						<td>Pause</td>
 						<td>Judgement</td>
 					</tr>
 				</thead>
@@ -47,12 +48,45 @@
 								<input type="hidden" value="${word.word_sound}">
 							</td>
 							<td>
+								<img src="${pageContext.request.contextPath}/img/pause.png" class="icon pause show">
+								<img src="${pageContext.request.contextPath}/img/replay.png" class="icon replay hide">
+							</td>
+							<td>
 								<span class="judgement"></span>
 							</td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
+			
+			<div class="pages">
+				<c:forEach var="page" items="${pages}">
+					<c:choose>
+						<c:when test="${page.link == ''}">
+							<c:choose>
+								<c:when test="${page.display == '...'}">
+									<div class="element">${page.display}</div>
+								</c:when>
+								<c:otherwise>
+									<div class="element pagenation current">${page.display}</div>
+								</c:otherwise>
+							</c:choose>
+						</c:when>
+						<c:otherwise>
+							<c:choose>
+								<c:when test="${page.display == 'left' || page.display == 'right'}">
+									<a href="${pageContext.request.contextPath}${page.link}" class="element ajacent">
+										<img src="${pageContext.request.contextPath}/img/${page.display}.png">
+									</a>
+								</c:when>
+								<c:otherwise>
+									<a href="${pageContext.request.contextPath}${page.link}" class="element pagenation link">${page.display}</a>
+								</c:otherwise>
+							</c:choose>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</div>
 		</div>
 	</div>
 </main>

@@ -13,8 +13,8 @@ h1, h2, h3, ul, li {
 a, img {
 	color: inherit;
 	outline: none;
-  text-decoration: none;
-  transition: all 0.3s;
+	text-decoration: none;
+	transition: all 0.3s;
 }
 
 a:hover, img:hover {
@@ -23,14 +23,14 @@ a:hover, img:hover {
 
 .container {
 	width: 1200px;
-	height: inherit;
+	height: 100%;
 	margin: 0 auto;
 }
 
 header {
 	background-color: darkcyan;
 	width: 100%;
-	height: 80px;
+	height: 60px;
 }
 
 .header {
@@ -42,6 +42,7 @@ header {
 
 h1 a {
 	display: block;
+	color: white;
 	width: 100%;
 	height: 100%;
 }
@@ -49,19 +50,21 @@ h1 a {
 footer {
 	background-color: darkcyan;
 	width: 100%;
-	height: 60px;
+	height: 40px;
 	text-align: center;
 }
 
 footer small {
+	color: white;
 	font-size: 12px;
-	line-height: 60px;
+	line-height: 40px;
 }
 
 main {
 	background-color: cornsilk;
 	width: 100%;
-	min-height: calc(100vh - 140px);
+	height: calc(100vh - 100px);
+	min-height: calc(100vh - 100px);
 }
 
 .index {
@@ -111,7 +114,7 @@ h3 {
 table {
 	width: 100%;
 	border-collapse: collapse;
-	border: 1px solid #000000;
+	border: 1px solid black;
 }
 
 tr {
@@ -120,7 +123,7 @@ tr {
 	text-align: center;
 }
 
-td:first-child, td:nth-child(4), td:last-child {
+td:first-child, td:nth-child(4), td:nth-child(5), td:last-child {
 	width: 100px;
 }
 
@@ -165,7 +168,7 @@ td:nth-child(2), td:nth-child(3) {
 	width: 200px;
 	height: 30px;
 	padding: 2px 5px;
-	border: 1px solid #000;
+	border: 1px solid black;
 	border-radius: 5px;
 	outline: none;
 	appearance: none;
@@ -174,7 +177,7 @@ td:nth-child(2), td:nth-child(3) {
 .answer_button {
 	background-color: aliceblue;
 	height: 30px;
-	border: 1px solid #000;
+	border: 1px solid black;
 	border-radius: 5px;
 	outline: none;
 	appearance: none;
@@ -189,17 +192,10 @@ td:nth-child(2), td:nth-child(3) {
 .judgement {
 	font-size: 24px;
 	font-weight: bold;
-}
-
-.correrct {
 	color: red;
 }
 
-.incorrerct {
-	color: #000;
-}
-
-.play {
+.play, .pause, .replay {
 	display: block;
 	width: 30px;
 	height: 30px;
@@ -212,4 +208,83 @@ td:nth-child(2), td:nth-child(3) {
 
 .hide {
 	display: none;
+}
+
+.pages {
+	display: flex;
+	justify-content: center;
+	margin-top: 30px;
+}
+
+.element {
+	display: block;
+	width: 20px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	box-sizing: border-box;
+	margin: 0 5px;
+}
+
+.pagenation {
+	width: 40px;
+	line-height: 38px;
+	border: solid 1px darkcyan;
+	border-radius: 50%;
+}
+
+.current {
+	background-color: darkcyan;
+	color: white;
+}
+
+.link {
+	background-color: cornsilk;
+	color: darkcyan;
+}
+
+.link:hover {
+	background-color: darkcyan;
+	color: white;
+	opacity: 1;
+}
+
+.ajacent {
+	display: block;
+	width: 30px;
+	height: 30px;
+	margin: 5px;
+}
+
+.ajacent img {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.not_found {
+	font-size: 24px;
+	font-weight: bold;
+	text-align: center;
+	margin: 0 0 20px;
+}
+
+.back_btn {
+	display: block;
+	background-color: darkturquoise;
+	color: white;
+	width: 140px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 40px;
+	margin: 0 auto;
 }

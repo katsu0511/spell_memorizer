@@ -1,8 +1,3 @@
--- DB名：spell_memorizer
--- ユーザー名：katsuyaharada
--- パスワード：tkznemou19
--- テーブル：BKTB, CPTB, WDTB
-
 -- 旧テーブル削除
 DROP TABLE IF EXISTS BKTB;
 DROP TABLE IF EXISTS CPTB;
@@ -31,6 +26,6 @@ CREATE TABLE WDTB(
     CPTRCD varchar(10) NOT NULL COMMENT "チャプターコード",
     WORDNU int NOT NULL COMMENT "単語番号",
     WRDSPL varchar(100) NOT NULL COMMENT "単語スペル",
-    WRDSND varchar(100) NOT NULL UNIQUE COMMENT "単語発音",
+    WRDSND varchar(100) NOT NULL COMMENT "単語発音",
     ETDTTM timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "入力日時"
 );
