@@ -47,6 +47,7 @@ public class IndexChapterServlet extends HttpServlet {
 		ResultSet rset1 = null;
 		ResultSet rset2 = null;
 		String id = request.getParameter("id");
+		String book_name = null;
 		
 		try {
 			conn = db.getConnection();
@@ -55,7 +56,6 @@ public class IndexChapterServlet extends HttpServlet {
 			pstmt1 = conn.prepareStatement(sql1);
 			pstmt1.setString(1, id);
 			rset1 = pstmt1.executeQuery();
-			String book_name = null;
 			
 			while (rset1.next()) {
 			  book_name = rset1.getString(1);
@@ -85,23 +85,27 @@ public class IndexChapterServlet extends HttpServlet {
 			} catch (SQLException e) {}
 			
 			try {
-        pstmt2.close();
-      } catch (SQLException e) {}
+				pstmt2.close();
+			} catch (SQLException e) {}
 			
 			try {
 				rset1.close();
 			} catch (SQLException e) {}
-			
+		
 			try {
-        rset2.close();
-      } catch (SQLException e) {}
+				rset2.close();
+			} catch (SQLException e) {}
 			
 			try {
 				conn.close();
 			} catch (SQLException e) {}
 		}
 		
-		request.getRequestDispatcher("/WEB-INF/app/index/index_chapter.jsp").forward(request, response);
+		if (book_name == null) {
+			request.getRequestDispatcher("/WEB-INF/app/404/404.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/WEB-INF/app/index/index_chapter.jsp").forward(request, response);
+		}
 	}
 
 	/**
