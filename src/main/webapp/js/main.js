@@ -106,3 +106,41 @@ answerButtonsArray.forEach(function(answerButton) {
 		}
 	});
 });
+
+const myAnswers = document.getElementsByClassName('my_answer');
+const myAnswerArray = Array.from(myAnswers);
+myAnswerArray.forEach(function(myAnswer) {
+	myAnswer.addEventListener('keydown', function(event) {
+		if (event.key === 'Enter') {
+			const answerButton = myAnswer.nextElementSibling;
+			answerButton.click();
+		} else if (event.key === 'Tab') {
+			event.preventDefault();
+			const tr = myAnswer.closest('tr');
+			let targetTr;
+			if (event.shiftKey) targetTr = tr.previousElementSibling !== null ? tr.previousElementSibling : tr;
+			else targetTr = tr.nextElementSibling !== null ? tr.nextElementSibling : tr;
+			const ans = targetTr.querySelector('.my_answer');
+			ans.focus();
+		} else if (event.key === ',') {
+			event.preventDefault();
+			const td = myAnswer.closest('td');
+			const play = td.nextElementSibling.querySelector('.play');
+			play.click();
+		} else if (event.key === '.') {
+			event.preventDefault();
+			const td = myAnswer.closest('td');
+			const pause = td.nextElementSibling.nextElementSibling.querySelector('.pause');
+			const replay = td.nextElementSibling.nextElementSibling.querySelector('.replay');
+			if (audio != null && audio.paused) replay.click();
+			else if (audio != null && !audio.paused) pause.click();
+		} else if (event.key === '/') {
+			event.preventDefault();
+			const td = myAnswer.closest('td');
+			const view = td.previousElementSibling.querySelector('.view');
+			const mask = td.previousElementSibling.querySelector('.mask');
+			if (view.classList.contains('show')) view.click();
+			else mask.click();
+		}
+	});
+});
