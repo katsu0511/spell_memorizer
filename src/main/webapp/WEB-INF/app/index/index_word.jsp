@@ -68,19 +68,19 @@
 									<div class="element">${page.display}</div>
 								</c:when>
 								<c:otherwise>
-									<div class="element pagenation current">${page.display}</div>
+									<div class="element page_nation current">${page.display}</div>
 								</c:otherwise>
 							</c:choose>
 						</c:when>
 						<c:otherwise>
 							<c:choose>
 								<c:when test="${page.display == 'left' || page.display == 'right'}">
-									<a href="${pageContext.request.contextPath}${page.link}" class="element ajacent">
+									<a href="${pageContext.request.contextPath}${page.link}" class="element adjacent">
 										<img src="${pageContext.request.contextPath}/img/${page.display}.png">
 									</a>
 								</c:when>
 								<c:otherwise>
-									<a href="${pageContext.request.contextPath}${page.link}" class="element pagenation link">${page.display}</a>
+									<a href="${pageContext.request.contextPath}${page.link}" class="element page_nation link">${page.display}</a>
 								</c:otherwise>
 							</c:choose>
 						</c:otherwise>
