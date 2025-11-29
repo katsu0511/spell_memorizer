@@ -43,8 +43,10 @@ header {
 h1 a {
 	display: block;
 	color: white;
+	font-size: 32px;
 	width: 100%;
 	height: 100%;
+	line-height: 60px;
 }
 
 footer {
@@ -90,44 +92,75 @@ main {
 
 .back {
 	display: block;
-	width: 36px;
-	height: 36px;
+	width: 24px;
+	height: 24px;
 }
 
 .back img {
 	display: block;
-	width: 24px;
-	height: 24px;
-	margin: 6px;
+	width: 100%;
+	height: 100%;
+}
+
+.titles {
+	display: flex;
+	align-items: center;
 }
 
 h2 {
-	height: 36px;
-	margin-left: 5px;
+	font-size: 24px;
+	margin-left: 11px;
 }
 
 h3 {
+	font-size: 20px;
 	margin-left: 20px;
 }
 
 table {
+	table-layout: fixed;
 	width: 100%;
 	border-collapse: collapse;
 	border: 1px solid black;
 }
 
+thead {
+	display: table-header-group;
+}
+
+.sp-only-tr {
+	display: none;
+}
+
+.pc-only-td {
+	display: table-cell;
+}
+
+.sp-only-td {
+	display: none;
+}
+
 tr {
+	font-size: 16px;
 	width: 100%;
 	height: 50px;
 	text-align: center;
 }
 
-td:first-child, td:nth-child(4), td:nth-child(5), td:last-child {
+td {
+	box-sizing: border-box;
+}
+
+td:first-child, td:nth-child(4), td:nth-child(5) {
 	width: 100px;
 }
 
 td:nth-child(2), td:nth-child(3) {
 	width: 400px;
+}
+
+td:last-child {
+	width: 99px;
 }
 
 .word_td {
@@ -138,6 +171,11 @@ td:nth-child(2), td:nth-child(3) {
 }
 
 .word {
+	font-size: 16px;
+	width: 100px;
+	height: 30px;
+	text-align: left;
+	line-height: 30px;
 	padding-left: 20px;
 }
 
@@ -217,6 +255,7 @@ td:nth-child(2), td:nth-child(3) {
 
 .element {
 	display: block;
+	font-size: 16px;
 	width: 20px;
 	height: 40px;
 	text-align: center;
@@ -280,10 +319,185 @@ td:nth-child(2), td:nth-child(3) {
 	display: block;
 	background-color: darkturquoise;
 	color: white;
+	font-size: 16px;
 	width: 140px;
 	height: 40px;
 	text-align: center;
 	line-height: 40px;
 	border-radius: 40px;
 	margin: 0 auto;
+}
+
+@media screen and (max-width: 1279px) {
+	.container {
+		width: 738px;
+	}
+	
+	tr {
+		font-size: 14px;
+	}
+	
+	td:first-child {
+		width: 40px;
+	}
+	
+	td:nth-child(2) {
+		width: 187px;
+	}
+	
+	td:nth-child(3) {
+		width: 300px;
+	}
+	
+	td:nth-child(4), td:nth-child(5) {
+		width: 60px;
+	}
+	
+	td:last-child {
+		width: 90px;
+	}
+	
+	.word {
+		padding-left: 10px;
+	}
+	
+	.icon_space {
+		width: 40px;
+	}
+	
+	.my_answer {
+		font-size: 16px;
+		width: 150px;
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.container {
+		width: calc(100% - 30px);
+	}
+	
+	header {
+		height: 40px;
+	}
+	
+	h1 a {
+		font-size: 24px;
+		line-height: 40px;
+	}
+	
+	footer {
+		height: 30px;
+	}
+	
+	footer small {
+		line-height: 30px;
+	}
+	
+	main {
+		min-height: calc(100vh - 70px);
+	}
+	
+	.index li a {
+		font-size: 16px;
+	}
+	
+	.book_titles {
+		padding-bottom: 15px;
+	}
+	
+	.back {
+		width: 20px;
+		height: 20px;
+	}
+	
+	.titles {
+		display: block;
+	}
+	
+	h2 {
+		font-size: 20px;
+		margin-left: 8px;
+	}
+	
+	h3 {
+		font-size: 18px;
+		margin-left: 8px;
+	}
+	
+	thead {
+		display: none;
+	}
+	
+	.sp-only-tr {
+		display: table-row;
+	}
+	
+	.pc-only-td {
+		display: none;
+	}
+	
+	.sp-only-td {
+		display: table-cell;
+	}
+	
+	.sp-num {
+		width: 40px !important;
+	}
+	
+	.sp-word {
+		width: calc(100% - 40px) !important;
+	}
+	
+	.word {
+		width: 150px;
+	}
+	
+	.sp-answer {
+		width: calc(100% - 40px) !important;
+	}
+	
+	.sp-icon {
+		width: 33% !important;
+	}
+	
+	.pages {
+		margin-top: 30px;
+	}
+	
+	.element {
+		font-size: 14px;
+		width: 12px;
+		height: 30px;
+		line-height: 30px;
+		margin: 0 3px;
+	}
+	
+	.page_nation {
+		width: 30px;
+		line-height: 28px;
+		margin: 0 4px;
+	}
+	
+	.adjacent {
+		width: 20px;
+		height: 20px;
+		margin: 5px 4px;
+	}
+	
+	.main {
+		height: calc(100vh - 70px);
+	}
+	
+	.not_found {
+		font-size: 20px;
+		margin: 0 0 10px;
+	}
+	
+	.back_btn {
+		font-size: 14px;
+		width: 120px;
+		height: 30px;
+		line-height: 30px;
+		border-radius: 30px;
+	}
 }

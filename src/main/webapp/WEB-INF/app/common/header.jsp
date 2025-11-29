@@ -4,6 +4,7 @@
 <html lang="ja">
 <head>
 	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Spell Memorizer</title>
 	<link rel="icon" href="${pageContext.request.contextPath}/img/favicon.png">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">

@@ -9,8 +9,10 @@
 				<a href="${pageContext.request.contextPath}/index/chapter?id=${book_code}" class="back">
 					<img src="${pageContext.request.contextPath}/img/back.png">
 				</a>
-				<h2 id="book_name">${book_name}</h2>
-				<h3 id="chapter_name">${chapter_name}</h3>
+				<div class="titles">
+					<h2 id="book_name">${book_name}</h2>
+					<h3 id="chapter_name">${chapter_name}</h3>
+				</div>
 			</div>
 			<table border="1">
 				<thead>
@@ -26,8 +28,9 @@
 				<tbody>
 					<c:forEach var="word" items="${words}">
 						<tr>
-							<td>${word.word_number}</td>
-							<td>
+							<td class="pc-only-td">${word.word_number}</td>
+							<td class="sp-only-td sp-num" rowspan="3">${word.word_number}</td>
+							<td class="pc-only-td">
 								<div class="word_td">
 									<span class="word">**********</span>
 									<input type="hidden" value="${word.word_spell}" class="spell_input">
@@ -37,21 +40,52 @@
 									</div>
 								</div>
 							</td>
-							<td>
+							<td class="sp-only-td sp-word" colspan="3">
+								<div class="word_td">
+									<span class="word">**********</span>
+									<input type="hidden" value="${word.word_spell}" class="spell_input">
+									<div class="icon_space">
+										<img src="${pageContext.request.contextPath}/img/view.png" class="icon view show">
+										<img src="${pageContext.request.contextPath}/img/mask.png" class="icon mask hide">
+									</div>
+								</div>
+							</td>
+							<td class="pc-only-td">
 								<div class="answer_td">
 									<input type="text" class="my_answer">
 									<button class="answer_button">answer</button>
 								</div>
 							</td>
-							<td>
+							<td class="pc-only-td">
 								<img src="${pageContext.request.contextPath}/img/play.png" class="icon play">
 								<input type="hidden" value="${word.word_sound}">
 							</td>
-							<td>
+							<td class="pc-only-td">
 								<img src="${pageContext.request.contextPath}/img/pause.png" class="icon pause show">
 								<img src="${pageContext.request.contextPath}/img/replay.png" class="icon replay hide">
 							</td>
-							<td>
+							<td class="pc-only-td">
+								<span class="judgement"></span>
+							</td>
+						</tr>
+						<tr class="sp-only-tr">
+							<td class="sp-answer" colspan="3">
+								<div class="answer_td">
+									<input type="text" class="my_answer sp">
+									<button class="answer_button sp">answer</button>
+								</div>
+							</td>
+						</tr>
+						<tr class="sp-only-tr">
+							<td class="sp-icon">
+								<img src="${pageContext.request.contextPath}/img/play.png" class="icon play">
+								<input type="hidden" value="${word.word_sound}">
+							</td>
+							<td class="sp-icon">
+								<img src="${pageContext.request.contextPath}/img/pause.png" class="icon pause show">
+								<img src="${pageContext.request.contextPath}/img/replay.png" class="icon replay hide">
+							</td>
+							<td class="sp-icon">
 								<span class="judgement"></span>
 							</td>
 						</tr>
