@@ -88,9 +88,16 @@ const correct = new Audio(`../sound/judgement/correct.mp3`);
 const incorrect = new Audio(`../sound/judgement/incorrect.mp3`);
 answerButtonsArray.forEach(function(answerButton) {
 	answerButton.addEventListener('click', function(){
-		const answer = answerButton.parentElement.parentElement.parentElement.querySelector('.spell_input').value;
 		const myAnswer = answerButton.previousElementSibling.value;
-		const judgement = answerButton.parentElement.parentElement.parentElement.querySelector('.judgement');
+		let answer;
+		let judgement;
+		if (answerButton.classList.contains('sp')) {
+			answer = answerButton.parentElement.parentElement.parentElement.previousElementSibling.querySelector('.sp-word').querySelector('.spell_input').value;
+			judgement = answerButton.parentElement.parentElement.parentElement.nextElementSibling.querySelector('.judgement');
+		} else {
+			answer = answerButton.parentElement.parentElement.parentElement.querySelector('.spell_input').value;
+			judgement = answerButton.parentElement.parentElement.parentElement.querySelector('.judgement');
+		}
 		judgement.classList.remove('correct');
 		judgement.classList.remove('incorrect');
 		correct.pause();
@@ -118,27 +125,51 @@ myAnswerArray.forEach(function(myAnswer) {
 			event.preventDefault();
 			const tr = myAnswer.closest('tr');
 			let targetTr;
-			if (event.shiftKey) targetTr = tr.previousElementSibling !== null ? tr.previousElementSibling : tr;
-			else targetTr = tr.nextElementSibling !== null ? tr.nextElementSibling : tr;
+			const isTop = myAnswer.classList.contains('sp') ? tr.previousElementSibling.previousElementSibling === null : tr.previousElementSibling === null;
+			const isBottom = myAnswer.classList.contains('sp') ? tr.nextElementSibling.nextElementSibling === null : tr.nextElementSibling.nextElementSibling.nextElementSibling === null;
+			if (event.shiftKey) targetTr = isTop ? tr : tr.previousElementSibling.previousElementSibling.previousElementSibling;
+			else targetTr = isBottom ? tr : tr.nextElementSibling.nextElementSibling.nextElementSibling;
 			const ans = targetTr.querySelector('.my_answer');
 			ans.focus();
 		} else if (event.key === ',') {
 			event.preventDefault();
-			const td = myAnswer.closest('td');
-			const play = td.nextElementSibling.querySelector('.play');
+			let play;
+			if (myAnswer.classList.contains('sp')) {
+				const tr = myAnswer.closest('tr');
+				play = tr.nextElementSibling.querySelector('.play');
+			} else {
+				const td = myAnswer.closest('td');
+				play = td.nextElementSibling.querySelector('.play');
+			}
 			play.click();
 		} else if (event.key === '.') {
 			event.preventDefault();
-			const td = myAnswer.closest('td');
-			const pause = td.nextElementSibling.nextElementSibling.querySelector('.pause');
-			const replay = td.nextElementSibling.nextElementSibling.querySelector('.replay');
+			let pause;
+			let replay;
+			if (myAnswer.classList.contains('sp')) {
+				const tr = myAnswer.closest('tr');
+				pause = tr.nextElementSibling.querySelector('.pause');
+				replay = tr.nextElementSibling.querySelector('.replay');
+			} else {
+				const td = myAnswer.closest('td');
+				pause = td.nextElementSibling.nextElementSibling.querySelector('.pause');
+				replay = td.nextElementSibling.nextElementSibling.querySelector('.replay');
+			}
 			if (audio != null && audio.paused) replay.click();
 			else if (audio != null && !audio.paused) pause.click();
 		} else if (event.key === '/') {
 			event.preventDefault();
-			const td = myAnswer.closest('td');
-			const view = td.previousElementSibling.querySelector('.view');
-			const mask = td.previousElementSibling.querySelector('.mask');
+			let view;
+			let mask;
+			if (myAnswer.classList.contains('sp')) {
+				const tr = myAnswer.closest('tr');
+				view = tr.previousElementSibling.querySelector('.sp-word').querySelector('.view');
+				mask = tr.previousElementSibling.querySelector('.sp-word').querySelector('.mask');
+			} else {
+				const td = myAnswer.closest('td');
+				view = td.previousElementSibling.previousElementSibling.querySelector('.view');
+				mask = td.previousElementSibling.previousElementSibling.querySelector('.mask');
+			}
 			if (view.classList.contains('show')) view.click();
 			else mask.click();
 		}
