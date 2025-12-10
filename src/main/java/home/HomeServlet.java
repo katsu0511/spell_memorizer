@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import data.SpellMemorizerDAO;
 
@@ -37,46 +38,53 @@ public class HomeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=UTF-8");
 		
-		SpellMemorizerDAO db = new SpellMemorizerDAO();
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		ArrayList<Map<String, String>> books = new ArrayList<Map<String, String>>();
-		
-		try {
-			conn = db.getConnection();
-			String sql = "SELECT BOOKCD,BOOKNM FROM BKTB ORDER BY BOOKCD ASC";
-			pstmt = conn.prepareStatement(sql);
-			rset = pstmt.executeQuery();
+		final HttpSession SESSION = request.getSession();
+		final Integer USER_ID = (Integer) SESSION.getAttribute("userId");
+		final String EMAIL = (String) SESSION.getAttribute("email");
+		if (USER_ID == null || EMAIL == null) response.sendRedirect(request.getContextPath() + "/login");
+		else {
+			request.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html;charset=UTF-8");
 			
-			while (rset.next()) {
-				Map<String, String> book = new HashMap<>();
-				book.put("book_code", rset.getString(1));
-				book.put("book_name", rset.getString(2));
-				books.add(book);
+			SpellMemorizerDAO db = new SpellMemorizerDAO();
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			ArrayList<Map<String, String>> books = new ArrayList<Map<String, String>>();
+			
+			try {
+				conn = db.getConnection();
+				String sql = "SELECT BOOKCD,BOOKNM FROM BKTB ORDER BY BOOKCD ASC";
+				pstmt = conn.prepareStatement(sql);
+				rset = pstmt.executeQuery();
+				
+				while (rset.next()) {
+					Map<String, String> book = new HashMap<>();
+					book.put("book_code", rset.getString(1));
+					book.put("book_name", rset.getString(2));
+					books.add(book);
+				}
+				
+				request.setAttribute("books", books);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {}
+				
+				try {
+					rset.close();
+				} catch (SQLException e) {}
+				
+				try {
+					conn.close();
+				} catch (SQLException e) { }
 			}
 			
-			request.setAttribute("books", books);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				pstmt.close();
-			} catch (SQLException e) {}
-			
-			try {
-				rset.close();
-			} catch (SQLException e) {}
-			
-			try {
-				conn.close();
-			} catch (SQLException e) { }
+			request.getRequestDispatcher("/WEB-INF/app/home/home.jsp").forward(request, response);
 		}
-		
-		request.getRequestDispatcher("/WEB-INF/app/home/home.jsp").forward(request, response);
 	}
 
 	/**
