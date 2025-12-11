@@ -12,6 +12,7 @@
 				<div class="titles">
 					<h2 id="book_name">${book_name}</h2>
 					<h3 id="chapter_name">${chapter_name}</h3>
+					<input type="hidden" id="user_id" value="${userId}">
 				</div>
 			</div>
 			<table border="1">
@@ -27,9 +28,23 @@
 				</thead>
 				<tbody>
 					<c:forEach var="word" items="${words}">
+						<c:set var="flag" value="${mark[word.word_code]}"/>
+						
 						<tr>
-							<td class="pc-only-td">${word.word_number}</td>
-							<td class="sp-only-td sp-num" rowspan="3">${word.word_number}</td>
+							<c:choose>
+								<c:when test="${flag == true}">
+									<td class="pc-only-td correct">${word.word_number}</td>
+									<td class="sp-only-td sp-num correct" rowspan="3">${word.word_number}</td>
+								</c:when>
+								<c:when test="${flag == false}">
+									<td class="pc-only-td incorrect">${word.word_number}</td>
+									<td class="sp-only-td sp-num incorrect" rowspan="3">${word.word_number}</td>
+								</c:when>
+								<c:otherwise>
+									<td class="pc-only-td">${word.word_number}</td>
+									<td class="sp-only-td sp-num" rowspan="3">${word.word_number}</td>
+								</c:otherwise>
+							</c:choose>
 							<td class="pc-only-td">
 								<div class="word_td">
 									<span class="word">**********</span>
@@ -54,6 +69,7 @@
 								<div class="answer_td">
 									<input type="text" class="my_answer">
 									<button class="answer_button">answer</button>
+									<input type="hidden" value="${word.word_code}">
 								</div>
 							</td>
 							<td class="pc-only-td">
@@ -73,6 +89,7 @@
 								<div class="answer_td">
 									<input type="text" class="my_answer sp">
 									<button class="answer_button sp">answer</button>
+									<input type="hidden" value="${word.word_code}">
 								</div>
 							</td>
 						</tr>
