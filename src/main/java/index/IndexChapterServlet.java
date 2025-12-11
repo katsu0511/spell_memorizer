@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import data.SpellMemorizerDAO;
 
@@ -37,74 +38,78 @@ public class IndexChapterServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=UTF-8");
 		
-		SpellMemorizerDAO db = new SpellMemorizerDAO();
-		Connection conn = null;
-		PreparedStatement pstmt1 = null;
-		PreparedStatement pstmt2 = null;
-		ResultSet rset1 = null;
-		ResultSet rset2 = null;
-		String id = request.getParameter("id");
-		String book_name = null;
-		
-		try {
-			conn = db.getConnection();
+		final HttpSession SESSION = request.getSession();
+		final Integer USER_ID = (Integer) SESSION.getAttribute("userId");
+		final String EMAIL = (String) SESSION.getAttribute("email");
+		if (USER_ID == null || EMAIL == null) response.sendRedirect(request.getContextPath() + "/login");
+		else {
+			request.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html;charset=UTF-8");
 			
-			String sql1 = "SELECT BOOKNM FROM BKTB WHERE BOOKCD=?";
-			pstmt1 = conn.prepareStatement(sql1);
-			pstmt1.setString(1, id);
-			rset1 = pstmt1.executeQuery();
+			SpellMemorizerDAO db = new SpellMemorizerDAO();
+			Connection conn = null;
+			PreparedStatement pstmt1 = null;
+			PreparedStatement pstmt2 = null;
+			ResultSet rset1 = null;
+			ResultSet rset2 = null;
+			String id = request.getParameter("id");
+			String book_name = null;
 			
-			while (rset1.next()) {
-			  book_name = rset1.getString(1);
+			try {
+				conn = db.getConnection();
+				
+				String sql1 = "SELECT BOOKNM FROM BKTB WHERE BOOKCD=?";
+				pstmt1 = conn.prepareStatement(sql1);
+				pstmt1.setString(1, id);
+				rset1 = pstmt1.executeQuery();
+				
+				while (rset1.next()) {
+				  book_name = rset1.getString(1);
+				}
+				
+				request.setAttribute("book_name", book_name);
+				
+				String sql2 = "SELECT CPTRCD,CPTRNM FROM CPTB WHERE BOOKCD=? ORDER BY CPTRCD ASC";
+				pstmt2 = conn.prepareStatement(sql2);
+				pstmt2.setString(1, id);
+				rset2 = pstmt2.executeQuery();
+				ArrayList<Map<String, String>> chapters = new ArrayList<Map<String, String>>();
+				
+				while (rset2.next()) {
+					Map<String, String> chapter = new HashMap<>();
+					chapter.put("chapter_code", rset2.getString(1));
+					chapter.put("chapter_name", rset2.getString(2));
+					chapters.add(chapter);
+				}
+				
+				request.setAttribute("chapters", chapters);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					pstmt1.close();
+				} catch (SQLException e) {}
+				
+				try {
+					pstmt2.close();
+				} catch (SQLException e) {}
+				
+				try {
+					rset1.close();
+				} catch (SQLException e) {}
+			
+				try {
+					rset2.close();
+				} catch (SQLException e) {}
+				
+				try {
+					conn.close();
+				} catch (SQLException e) {}
 			}
 			
-			request.setAttribute("book_name", book_name);
-			
-			String sql2 = "SELECT CPTRCD,CPTRNM FROM CPTB WHERE BOOKCD=? ORDER BY CPTRCD ASC";
-			pstmt2 = conn.prepareStatement(sql2);
-			pstmt2.setString(1, id);
-			rset2 = pstmt2.executeQuery();
-			ArrayList<Map<String, String>> chapters = new ArrayList<Map<String, String>>();
-			
-			while (rset2.next()) {
-				Map<String, String> chapter = new HashMap<>();
-				chapter.put("chapter_code", rset2.getString(1));
-				chapter.put("chapter_name", rset2.getString(2));
-				chapters.add(chapter);
-			}
-			
-			request.setAttribute("chapters", chapters);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				pstmt1.close();
-			} catch (SQLException e) {}
-			
-			try {
-				pstmt2.close();
-			} catch (SQLException e) {}
-			
-			try {
-				rset1.close();
-			} catch (SQLException e) {}
-		
-			try {
-				rset2.close();
-			} catch (SQLException e) {}
-			
-			try {
-				conn.close();
-			} catch (SQLException e) {}
-		}
-		
-		if (book_name == null) {
-			request.getRequestDispatcher("/WEB-INF/app/404/404.jsp").forward(request, response);
-		} else {
-			request.getRequestDispatcher("/WEB-INF/app/index/index_chapter.jsp").forward(request, response);
+			if (book_name == null) request.getRequestDispatcher("/WEB-INF/app/404/404.jsp").forward(request, response);
+			else request.getRequestDispatcher("/WEB-INF/app/index/index_chapter.jsp").forward(request, response);
 		}
 	}
 
