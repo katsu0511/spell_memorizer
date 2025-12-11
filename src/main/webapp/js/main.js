@@ -70,7 +70,7 @@ playsArray.forEach(function(play) {
 		const chapterName = document.getElementById('chapter_name');
 		const mp3FileName = play.nextElementSibling;
 		if (audio != null) audio.pause();
-		audio = new Audio(`../sound/${bookName.textContent}/${chapterName.textContent}/${mp3FileName.value}`);
+		audio = new Audio(`${CONTEXT_PATH}/sound/${bookName.textContent}/${chapterName.textContent}/${mp3FileName.value}`);
 		audio.play();
 		replaysArray.forEach(function(replay) {
 			replay.classList.remove('show');
@@ -84,8 +84,8 @@ playsArray.forEach(function(play) {
 
 const answerButtons = document.getElementsByClassName('answer_button');
 const answerButtonsArray = Array.from(answerButtons);
-const correct = new Audio(`../sound/judgement/correct.mp3`);
-const incorrect = new Audio(`../sound/judgement/incorrect.mp3`);
+const correct = new Audio(`${CONTEXT_PATH}/sound/judgement/correct.mp3`);
+const incorrect = new Audio(`${CONTEXT_PATH}/sound/judgement/incorrect.mp3`);
 answerButtonsArray.forEach(function(answerButton) {
 	answerButton.addEventListener('click', function(){
 		const myAnswer = answerButton.previousElementSibling.value;
@@ -104,13 +104,24 @@ answerButtonsArray.forEach(function(answerButton) {
 		correct.currentTime = 0;
 		incorrect.pause();
 		incorrect.currentTime = 0;
+		let isCorrect;
 		if (answer === myAnswer) {
+			isCorrect = true;
 			judgement.textContent = '◯';
 			correct.play();
 		} else {
+			isCorrect = false;
 			judgement.textContent = '×';
 			incorrect.play();
 		}
+		const req = new XMLHttpRequest();
+		const userId = document.getElementById('user_id').value;
+		const wordCode = answerButton.nextElementSibling.value;
+		const url = `${CONTEXT_PATH}/mark`;
+		req.open('POST',url);
+		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		const params = `userId=${encodeURIComponent(userId)}&wordCode=${encodeURIComponent(wordCode)}&isCorrect=${encodeURIComponent(isCorrect)}`;
+		req.send(params);
 	});
 });
 
@@ -175,3 +186,17 @@ myAnswerArray.forEach(function(myAnswer) {
 		}
 	});
 });
+
+const loginBtn = document.getElementById('login_btn');
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const smEmail = localStorage.getItem('sm_email') ? localStorage.getItem('sm_email') : '';
+const smPassword = localStorage.getItem('sm_password') ? localStorage.getItem('sm_password') : '';
+if (loginBtn && email && password) {
+	email.value = smEmail;
+	password.value = smPassword;
+	loginBtn.addEventListener('click', () => {
+		localStorage.setItem('sm_email', email.value);
+		localStorage.setItem('sm_password', password.value);
+	});
+}
