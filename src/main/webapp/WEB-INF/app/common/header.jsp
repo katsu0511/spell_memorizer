@@ -17,6 +17,11 @@
 				<h1>
 					<a href="${pageContext.request.contextPath}/home">Spell Memorizer</a>
 				</h1>
+				<c:if test="${sessionScope.userId != null && sessionScope.email != null}">
+					<form class="header_btn" action="${pageContext.request.contextPath}/logout" method="POST">
+						<button type="submit" class="button logout">Logout</button>
+					</form>
+				</c:if>
 			</div>
 		</div>
 	</header>
