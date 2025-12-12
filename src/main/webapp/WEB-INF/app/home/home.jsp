@@ -8,7 +8,7 @@
 			<ul>
 				<c:forEach var="book" items="${books}">
 					<li>
-						<a href="${pageContext.request.contextPath}/index/chapter?id=${book.book_code}">${book.book_name}</a>
+						<a href="${pageContext.request.contextPath}/index/chapter?book_code=${book.bookCode}">${book.bookName}</a>
 					</li>
 				</c:forEach>
 			</ul>
