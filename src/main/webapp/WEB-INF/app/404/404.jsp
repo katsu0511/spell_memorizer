@@ -6,8 +6,8 @@
 	<div class="container">
 		<div class="main">
 			<div class="display">
-				<p class="not_found">404 - Not found</p>
-				<a class="back_btn" href="${pageContext.request.contextPath}/home">Back to home</a>
+				<p class="not_found">404 - Not Found</p>
+				<a class="back_btn" href="${pageContext.request.contextPath}/home">Home</a>
 			</div>
 		</div>
 	</div>
