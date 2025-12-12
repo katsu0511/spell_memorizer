@@ -53,33 +53,39 @@ public class IndexChapterServlet extends HttpServlet {
 			PreparedStatement pstmt2 = null;
 			ResultSet rset1 = null;
 			ResultSet rset2 = null;
-			String id = request.getParameter("id");
-			String book_name = null;
+			String bookCode = request.getParameter("book_code");
+			String bookName = null;
 			
 			try {
 				conn = db.getConnection();
 				
-				String sql1 = "SELECT BOOKNM FROM BKTB WHERE BOOKCD=?";
+				String sql1 = """
+					SELECT BOOKNM
+					FROM BKTB
+					WHERE BOOKCD = ?
+				""";
 				pstmt1 = conn.prepareStatement(sql1);
-				pstmt1.setString(1, id);
+				pstmt1.setString(1, bookCode);
 				rset1 = pstmt1.executeQuery();
+				if (rset1.next()) bookName = rset1.getString(1);
 				
-				while (rset1.next()) {
-				  book_name = rset1.getString(1);
-				}
+				request.setAttribute("bookName", bookName);
 				
-				request.setAttribute("book_name", book_name);
-				
-				String sql2 = "SELECT CPTRCD,CPTRNM FROM CPTB WHERE BOOKCD=? ORDER BY CPTRCD ASC";
+				String sql2 = """
+					SELECT CPTRCD, CPTRNM
+					FROM CPTB
+					WHERE BOOKCD = ?
+					ORDER BY CPTRCD ASC
+				""";
 				pstmt2 = conn.prepareStatement(sql2);
-				pstmt2.setString(1, id);
+				pstmt2.setString(1, bookCode);
 				rset2 = pstmt2.executeQuery();
 				ArrayList<Map<String, String>> chapters = new ArrayList<Map<String, String>>();
 				
 				while (rset2.next()) {
 					Map<String, String> chapter = new HashMap<>();
-					chapter.put("chapter_code", rset2.getString(1));
-					chapter.put("chapter_name", rset2.getString(2));
+					chapter.put("chapterCode", rset2.getString(1));
+					chapter.put("chapterName", rset2.getString(2));
 					chapters.add(chapter);
 				}
 				
@@ -87,29 +93,15 @@ public class IndexChapterServlet extends HttpServlet {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				try {
-					pstmt1.close();
-				} catch (SQLException e) {}
-				
-				try {
-					pstmt2.close();
-				} catch (SQLException e) {}
-				
-				try {
-					rset1.close();
-				} catch (SQLException e) {}
-			
-				try {
-					rset2.close();
-				} catch (SQLException e) {}
-				
-				try {
-					conn.close();
-				} catch (SQLException e) {}
+				db.close(pstmt1);
+				db.close(pstmt2);
+				db.close(rset1);
+				db.close(rset2);
+				db.close(conn);
 			}
 			
-			if (book_name == null) request.getRequestDispatcher("/WEB-INF/app/404/404.jsp").forward(request, response);
-			else request.getRequestDispatcher("/WEB-INF/app/index/index_chapter.jsp").forward(request, response);
+			if (bookName == null) request.getRequestDispatcher("/WEB-INF/app/404/404.jsp").forward(request, response);
+			else request.getRequestDispatcher("/WEB-INF/app/index/index-chapter.jsp").forward(request, response);
 		}
 	}
 
