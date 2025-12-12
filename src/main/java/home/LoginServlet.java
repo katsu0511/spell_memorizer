@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
 		final UserDTO USER = DB_MANAGER.getLoginUser(email, password);
 		
 		if (email.equals("") || password.equals("")) {
-			errorMessage = "Eメールとパスワードを入力してください。";
+			errorMessage = "Please input Email and password.";
 			request.setAttribute("errorMessage", errorMessage);
 			request.setAttribute("email", email);
 			request.setAttribute("password", password);
@@ -66,7 +66,7 @@ public class LoginServlet extends HttpServlet {
 			SESSION.setAttribute("email", email);
 			response.sendRedirect(request.getContextPath() + "/home");
 		} else {
-			errorMessage = "Eメールかパスワードが間違っています。";
+			errorMessage = "Email or password is incorrent.";
 			request.setAttribute("errorMessage", errorMessage);
 			request.setAttribute("email", email);
 			request.setAttribute("password", password);
