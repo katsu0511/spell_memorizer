@@ -58,7 +58,12 @@ public class MarkServlet extends HttpServlet {
 			try {
 				conn = db.getConnection();
 				
-				String sql1 = "SELECT CRRCTD FROM MARK WHERE USERID=? AND WORDCD=?";
+				String sql1 = """
+					SELECT CRRCTD
+					FROM MARK
+					WHERE USERID = ?
+					AND WORDCD = ?
+				""";
 				pstmt1 = conn.prepareStatement(sql1);
 				pstmt1.setInt(1, USER_ID);
 				pstmt1.setString(2, wordCode);
@@ -68,7 +73,10 @@ public class MarkServlet extends HttpServlet {
 				if (USER_AUTHENTICATION) {
 					if (isAnswerCorrect == null) {
 						
-						String sql2 = "INSERT INTO MARK (USERID,WORDCD,CRRCTD) VALUES (?, ?, ?)";
+						String sql2 = """
+							INSERT INTO MARK (USERID, WORDCD, CRRCTD)
+							VALUES (?, ?, ?)
+						""";
 						pstmt2 = conn.prepareStatement(sql2);
 						pstmt2.setInt(1, USER_ID);
 						pstmt2.setString(2, wordCode);
@@ -77,7 +85,12 @@ public class MarkServlet extends HttpServlet {
 						
 					} else if (isAnswerCorrect != isCorrect) {
 						
-						String sql2 = "UPDATE MARK SET CRRCTD=? WHERE USERID=? AND WORDCD=?";
+						String sql2 = """
+							UPDATE MARK
+							SET CRRCTD = ?
+							WHERE USERID = ?
+							AND WORDCD = ?
+						""";
 						pstmt2 = conn.prepareStatement(sql2);
 						pstmt2.setBoolean(1, isCorrect);
 						pstmt2.setInt(2, USER_ID);
@@ -90,12 +103,10 @@ public class MarkServlet extends HttpServlet {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				try {
-					pstmt1.close();
-					if (USER_AUTHENTICATION && (isAnswerCorrect == null || isAnswerCorrect != isCorrect)) pstmt2.close();
-					rset1.close();
-					conn.close();
-				} catch (SQLException e) {}
+				db.close(pstmt1);
+				db.close(pstmt2);
+				db.close(rset1);
+				db.close(conn);
 			}
 		}
 	}
