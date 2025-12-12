@@ -55,14 +55,18 @@ public class HomeServlet extends HttpServlet {
 			
 			try {
 				conn = db.getConnection();
-				String sql = "SELECT BOOKCD,BOOKNM FROM BKTB ORDER BY BOOKCD ASC";
+				String sql = """
+					SELECT BOOKCD, BOOKNM
+					FROM BKTB
+					ORDER BY BOOKCD ASC
+				""";
 				pstmt = conn.prepareStatement(sql);
 				rset = pstmt.executeQuery();
 				
 				while (rset.next()) {
 					Map<String, String> book = new HashMap<>();
-					book.put("book_code", rset.getString(1));
-					book.put("book_name", rset.getString(2));
+					book.put("bookCode", rset.getString(1));
+					book.put("bookName", rset.getString(2));
 					books.add(book);
 				}
 				
@@ -70,17 +74,9 @@ public class HomeServlet extends HttpServlet {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {}
-				
-				try {
-					rset.close();
-				} catch (SQLException e) {}
-				
-				try {
-					conn.close();
-				} catch (SQLException e) { }
+				db.close(pstmt);
+				db.close(rset);
+				db.close(conn);
 			}
 			
 			request.getRequestDispatcher("/WEB-INF/app/home/home.jsp").forward(request, response);

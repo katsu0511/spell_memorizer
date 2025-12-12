@@ -14,7 +14,7 @@
 				<div class="login_items">
 				
 					<div class="login_item">
-						<label for="email" class="login_label">Eメール :</label>
+						<label for="email" class="login_label">Email :</label>
 						<div class="login_input">
 							<input type="text" id="email" class="login_info" name="email" value="${email}" autocomplete="off">
 						</div>
@@ -33,7 +33,7 @@
 					
 					<div class="login_item">
 						<div class="login_submit">
-							<input type="submit" id="login_btn" class="button login" name="login_btn" value="ログイン">
+							<input type="submit" id="login_btn" class="button login" name="login_btn" value="Login">
 						</div>
 					</div>
 					
