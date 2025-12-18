@@ -67,7 +67,16 @@
 							</td>
 							<td class="pc-only-td">
 								<div class="answer_td">
-									<input type="text" class="my_answer">
+									<input
+										type="text"
+										class="my_answer"
+										autocomplete="off"
+										autocorrect="off"
+										autocapitalize="none"
+										spellcheck="false"
+										inputmode="latin"
+										lang="en"
+									/>
 									<button class="answer_button">answer</button>
 									<input type="hidden" value="${word.wordCode}">
 								</div>
@@ -87,7 +96,16 @@
 						<tr class="sp-only-tr">
 							<td class="sp-answer" colspan="3">
 								<div class="answer_td">
-									<input type="text" class="my_answer sp">
+									<input
+										type="text"
+										class="my_answer"
+										autocomplete="off"
+										autocorrect="off"
+										autocapitalize="none"
+										spellcheck="false"
+										inputmode="latin"
+										lang="en"
+									/>
 									<button class="answer_button sp">answer</button>
 									<input type="hidden" value="${word.wordCode}">
 								</div>
